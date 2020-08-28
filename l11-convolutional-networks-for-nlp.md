@@ -4,7 +4,7 @@ CNN \(Convolutional Neural Network\) convolutional neural network has many appli
 
 In the previous RNN system \(without using Attention\), we usually use the last hidden vector to represent all the information of the entire sentence, which creates an **information bottleneck. The idea of CNN processing is to calculate a feature vector for all sub-phrases, and finally combine them according to specific tasks. \(Same idea with: consider the entire words vectors for a sub-phrase as an "image"\)**
 
-![](.gitbook/assets/image%20%28142%29.png)
+![](.gitbook/assets/image%20%28143%29.png)
 
 ## CNN Architecture
 
@@ -12,11 +12,11 @@ In the previous RNN system \(without using Attention\), we usually use the last 
 
 All architecture follows the ordinary CNN:
 
-![](.gitbook/assets/image%20%28144%29.png)
+![](.gitbook/assets/image%20%28146%29.png)
 
 ### Convolutional layer
 
-![](.gitbook/assets/image%20%28143%29.png) 
+![](.gitbook/assets/image%20%28144%29.png) 
 
 with multiple feature detectors and will result in multiple feature maps
 
@@ -28,7 +28,7 @@ refer here [https://github.com/Adrian107/Interview-Preparation/blob/master/pics/
 
 #### Max Pooling
 
-![](.gitbook/assets/image%20%28145%29.png)
+![](.gitbook/assets/image%20%28147%29.png)
 
 #### Sub-sampling/ Average pooling
 
@@ -40,9 +40,13 @@ Pooling: use statistical methods, such as max pooling and average pooling
 
 Convolutional layer: use different feature detector 
 
+### Batch Normalization
+
+![](.gitbook/assets/image%20%28145%29.png)
+
 ## CNN in NLP
 
 Consider word vectors of a phrase as an image with vector size of pixels and apply CNN.
 
-![](.gitbook/assets/image%20%28146%29.png)
+![](.gitbook/assets/image%20%28148%29.png)
 
