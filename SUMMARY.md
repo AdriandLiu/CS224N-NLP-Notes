@@ -11,4 +11,5 @@
 * [L8 - Translation, Seq2Seq, Attention](l8-translation-seq2seq-attention.md)
 * [L10 - Question Answering](l10-question-answering.md)
 * [L11 - Convolutional Networks for NLP](l11-convolutional-networks-for-nlp.md)
+* [L12 - Subword Models](l12-subword-models.md)
 
