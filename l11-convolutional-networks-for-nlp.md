@@ -28,7 +28,7 @@ refer here [https://github.com/Adrian107/Interview-Preparation/blob/master/pics/
 
 #### Max Pooling
 
-![](.gitbook/assets/image%20%28147%29.png)
+![](.gitbook/assets/image%20%28148%29.png)
 
 #### Sub-sampling/ Average pooling
 
@@ -48,5 +48,11 @@ Convolutional layer: use different feature detector
 
 Consider word vectors of a phrase as an image with vector size of pixels and apply CNN.
 
-![](.gitbook/assets/image%20%28148%29.png)
+![](.gitbook/assets/image%20%28149%29.png)
+
+## CNN application in NLP
+
+### Translation
+
+![](.gitbook/assets/image%20%28147%29.png)
 
