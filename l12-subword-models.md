@@ -8,7 +8,7 @@ description: 'https://zhuanlan.zhihu.com/p/69414965'
 
 ### **Character-Level Model**
 
-一种思路是将字符作为基本单元，建立Character-level model，但是由于基本单元换为字符后，相较于单词，其输入的序列更长了，使得数据更稀疏且长程的依赖关系更难学习，训练速度也会降低。[Fully Character-Level Neural Machine Translation without Explicit Segmentation](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1610.03017)中利用了多层的convolution, pooling与highway layer来解决这一问题，其中encoder的结构如下图所示：
+一种思路是**将字符作为基本单元，建立Character-level model**，但是由于基本单元换为字符后，相较于单词，其输入的序列更长了，使得数据更稀疏且长程的依赖关系更难学习，训练速度也会降低。[Fully Character-Level Neural Machine Translation without Explicit Segmentation](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1610.03017)中利用了多层的convolution, pooling与highway layer来解决这一问题，其中encoder的结构如下图所示：
 
 ![](https://pic2.zhimg.com/80/v2-e37c464f9d3c1101c8f0f9c372005047_1440w.jpg)
 
@@ -20,7 +20,7 @@ description: 'https://zhuanlan.zhihu.com/p/69414965'
 
 基本单元介于字符与单词之间的模型称作Subword Model。那么Subword如何选择呢？一种方法是Byte Pair Encoding,简称BPE。 BPE最早是一种压缩算法，基本思路是把经常出现的byte pair用一个新的byte来代替，例如假设\('A', ’B‘）经常顺序出现，则用一个新的标志'AB'来代替它们。
 
-给定了文本库，我们的初始词汇库仅包含所有的单个的字符，然后不断的将出现频率最高的n-gram pair作为新的ngram加入到词汇库中，直到词汇库的大小达到我们所设定的某个目标为止。
+给定了文本库，**我们的初始词汇库仅包含所有的单个的字符，然后不断的将出现频率最高的n-gram pair作为新的ngram加入到词汇库中**，直到词汇库的大小达到我们所设定的某个目标为止。
 
 例如，假设我们的文本库中出现的单词及其出现次数为 {'l o w': 5, 'l o w e r': 2, 'n e w e s t': 6, 'w i d e s t': 3}，我们的初始词汇库为{ 'l', 'o', 'w', 'e', 'r', 'n', 'w', 's', 't', 'i', 'd'}，出现频率最高的ngram pair是\('e','s'\) 9次，所以我们将'es'作为新的词汇加入到词汇库中，由于'es'作为一个整体出现在词汇库中，这时文本库可表示为 {'l o w': 5, 'l o w e r': 2, 'n e w es t': 6, 'w i d es t': 3}，这时出现频率最高的ngram pair是\('es','t'\) 9次，将'est'加入到词汇库中，文本库更新为{'l o w': 5, 'l o w e r': 2, 'n e w est': 6, 'w i d est': 3}，新的出现频率最高的ngram pair是\('l','o'\)7次，将'lo'加入到词汇库中，文本库更新为{'lo w': 5, 'lo w e r': 2, 'n e w est': 6, 'w i d est': 3}。以此类推，直到词汇库大小达到我们所设定的目标。这个例子中词汇量较小，对于词汇量很大的实际情况，我们就可以通过BPE逐步建造一个较小的基于subword unit的词汇库来表示所有的词汇。
 
@@ -33,6 +33,8 @@ description: 'https://zhuanlan.zhihu.com/p/69414965'
 其结构如下图所示，大部分还是依赖于比较高效的word level模型，但遇到例子中的"cute"这样的OOV词汇，我们就需要建立一个character level的表示，decode时遇到&lt;unk&gt;这个表示OOV的特殊标记时，就需要character level的decode，训练过程是end2end的，不过损失函数是word部分与character level部分损失函数的加权叠加。![](https://pic4.zhimg.com/80/v2-9447728f421604f7997ceb52b3ed0870_1440w.jpg)
 
 ### **FastText**
+
+Aim: a next generation efficient word2vec-like word representation library, but better for _rare words_ and languages with lots of morphology
 
 在Word2Vec [CS224N笔记\(一\)：Word Vector](https://zhuanlan.zhihu.com/p/59016893)中，word vector也是基于word level来建立的，对于含有很多OOV的词汇的文本效果不好，那么我们可不可以采取类似于上面的subword的思路来产生更好的word embedding呢？FAIR的FastText就是利用subword将word2vec扩充，有效的构建embedding。其基本思路是将每个word表示成bag of character n-gram以及单词本身的集合，例如对于where这个单词和n=3的情况，它可以表示为 &lt;wh,whe,her,ere,re&gt;,&lt;where&gt; ，其中"&lt;","&gt;"为代表单词开始与结束的特殊标记。假设对于word ![\[&#x516C;&#x5F0F;\]](https://www.zhihu.com/equation?tex=w) ，其n-gram集合用 ![\[&#x516C;&#x5F0F;\]](https://www.zhihu.com/equation?tex=G_W) 表示，每个n-gram的矢量表示为 ![\[&#x516C;&#x5F0F;\]](https://www.zhihu.com/equation?tex=%5Cvec%7Bz_g%7D) ，则每个单词可以表示成其所有n-gram的矢量和的形式，而center word ![\[&#x516C;&#x5F0F;\]](https://www.zhihu.com/equation?tex=w) 与context word ![\[&#x516C;&#x5F0F;\]](https://www.zhihu.com/equation?tex=c) 的分数就可表示成 ![\[&#x516C;&#x5F0F;\]](https://www.zhihu.com/equation?tex=s%28w%2Cc%29%3D%5Csum_%7Bg%5Cin+G_w%7D%5Cvec%7Bz_g%7D%5ET%5Cvec%7Bv_c%7D) 的形式，之后就可以按照经典的word2vec算法训练得到这些特征向量。
 
