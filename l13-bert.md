@@ -32,6 +32,8 @@ GPT的核心思想是利用Transformer模型对大量文本进行无监督学习
 
 BERT原理与GPT有相似之处，不过它利用了双向的信息，因而其全称是Bidirectional Encoder Representations from Transformers。![](https://pic2.zhimg.com/80/v2-6be403efd1d99eb637e2d297cae60ca8_1440w.jpg)
 
+![](.gitbook/assets/image%20%28150%29.png)
+
 BERT做无监督的pre-training时有两个目标：
 
 * 一个是将输入的文本中 k%的单词遮住，然后预测被遮住的是什么单词。
